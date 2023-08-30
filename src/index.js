@@ -7,21 +7,31 @@ import { UserProvider } from './contexts/user.context';
 import { CategoriesProvider } from './contexts/categories.context';
 import { CartProvider } from './contexts/cart.context';
 
+// Add GraphQL client
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+
 import './index.scss';
+
+const client = new ApolloClient({
+  uri: 'https://crwn-clothing.com/',
+  cache: new InMemoryCache(),
+});
 
 const rootElement = document.getElementById('root');
 
 render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <UserProvider>
-        <CategoriesProvider>
-          <CartProvider>
-            <App />
-          </CartProvider>
-        </CategoriesProvider>
-      </UserProvider>
-    </BrowserRouter>
-  </React.StrictMode>,
+  <React.StrictMode >
+    <ApolloProvider client={client}>
+      <BrowserRouter>
+        <UserProvider>
+          <CategoriesProvider>
+            <CartProvider>
+              <App />
+            </CartProvider>
+          </CategoriesProvider>
+        </UserProvider>
+      </BrowserRouter>
+    </ApolloProvider>
+  </React.StrictMode >,
   rootElement
 );
